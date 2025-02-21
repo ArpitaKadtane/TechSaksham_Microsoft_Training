@@ -1,0 +1,176 @@
+CREATE TABLE temp_schema.alter_demo(
+    col_num DECIMAL(10 , 2 ),
+    col_date DATE,
+    col_string VARCHAR(255)
+);
+
+-- add columns
+-- alter table temp_schema.alter_demo;
+
+-- alter table temp_schema.alter_demo;
+-- describe temp_schema.alter_demo;
+-- modify column
+-- alter table temp_schema.alter_demo
+-- modify column col_3 varchar(10);
+
+-- modify column will not work if data type is not complete
+-- alter table temp_schema.alter_demo 
+-- rename temo_schema.alter_demo_renamed
+
+-- rename table
+-- alter table temp_schema.alter_demo rename temp_schema.alter_demo_renamed;
+
+/*
+update table_name
+set column1=value1,column2
+where condition;
+*/
+select * from employee.employee;
+
+UPDATE employee.employee 
+SET 
+    ename = 'gabrielle'
+WHERE
+    empno = '7566';
+
+UPDATE employee.employee 
+SET 
+    ename = 'sanika'
+WHERE
+    sal = 3000;
+
+update employee.employee set ename='bob';
+
+update employee.employee set sal=2000 where sal>=3000 and job=analyst;
+
+/*
+delete from table_name
+where condition;
+*/
+
+delete from employee.employee where job='salesman';
+
+-- Null values are not allowed in col_1
+
+CREATE TABLE temp_schema.constrainrts_demo(
+   col_1 integer not null,
+   col_2 integer 
+);
+
+insert into temp_schema.constrainrts_demo values(2,null);
+
+alter table temp_schema.constrainrts_demo modify column col_2 varchar(255) not null;
+select * from temp_schema.constrainrts_demo;
+
+delete from temp_schema.constrainrts_demo where col_2 is null;
+
+drop table temp_schema.constrainrts_demo;
+
+create table temp_schema.constraints_demo(col_1 integer unique,col_2 varchar(255));
+
+insert into temp_schema.constraints_demo values(1, 'row1');
+
+insert into temp_schema.constraints_demo values(null,'row1');
+insert into temp_schema.constraints_demo values(null,'row1');
+select * from temp_schema.constraints_demo;
+
+CREATE TABLE temp_schema.demo (
+    col_1 INTEGER UNIQUE,
+    col_2 INTEGER UNIQUE
+);
+insert into temp_schema.demo values(1,2);
+-- drop the unique constraint
+alter table temp_schema.demo drop constraint col_1;
+
+select * from temp_schema.demo;
+
+-- alter table temp_schema.demo drop constraint constraint_demo_chk_1;
+
+
+-- creating the primary key table
+
+CREATE TABLE temp_schema.pk_table (
+    col_1 INTEGER,
+    col_2 VARCHAR(255),
+    PRIMARY KEY (col_1)
+);
+CREATE TABLE temp_schema.fk_table (
+    col_1 VARCHAR(10),
+    col_2 INTEGER,
+    FOREIGN KEY (col_2)
+       REFERENCES temp_schema.pk_table(col_1)
+);
+
+select * from temp_schema.pk_table;
+select * from temp_schema.fk_table;
+insert into temp_schema.fk_table values('apple',1);
+insert into temp_schema.pk_table values (1,'fruit');
+
+insert into temp_schema.pk_table values (2,'animal');
+insert into temp_schema.pk_table values (null,'animal');
+
+-- dropping primary key first we have to delete pk then drop fk
+alter table temp_schema.pk_table
+drop primary key;
+ show create table temp_schema.fk_table;
+-- dropping foreign key
+alter table temp_schema.fk_table
+drop constraint fk_table_ibfk_1;
+
+create schema if not exists hr;
+CREATE TABLE hr.emp (
+    emp_no INT,
+    ename VARCHAR(255),
+    job VARCHAR(255),
+    mgr INT,
+    hire_date DATE,
+    sal DECIMAL(10 , 2 ),
+    comm DECIMAL(10 , 2 ),
+    dept_no INT
+);
+INSERT INTO hr.emp(emp_no,ename,job,mgr,hire_date,sal,comm,dept_no)
+VALUES (7369, 'SMITH', 'CLERK', 7902, '1980-12-17', 800.00, NULL, 20),
+    (7499, 'ALLEN', 'SALESMAN', 7698, '1981-02-20', 1600.00, 300.00, 30),
+    (7521, 'WARD', 'SALESMAN', 7698, '1981-02-22', 1250.00, 500.00, 30),
+    (7566, 'JONES', 'MANAGER', 7839, '1981-04-02', 2975.00, NULL, 20),
+    (7654, 'MARTIN', 'SALESMAN', 7698, '1981-09-28', 1250.00, 1400.00, 30),
+    (7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01', 2850.00, NULL, 30),
+    (7782, 'CLARK', 'MANAGER', 7839, '1981-06-09', 2450.00, NULL, 10),
+    (7788, 'SCOTT', 'ANALYST', 7566, '1982-12-09', 3000.00, NULL, 20),
+    (7839, 'KING', 'PRESIDENT', NULL, '1981-11-17', 5000.00, NULL, 10),
+    (7844, 'TURNER', 'SALESMAN', 7698, '1981-09-08', 1500.00, 0.00, 30),
+    (7876, 'ADAMS', 'CLERK', 7788, '1983-01-12', 1100.00, NULL, 20),
+    (7900, 'JAMES', 'CLERK', 7698, '1981-12-03', 950.00, NULL, 30),
+    (7902, 'FORD', 'ANALYST', 7566, '1981-12-03', 3000.00, NULL, 20),
+    (7934, 'MILLER', 'CLERK', 7782, '1982-01-23', 1300.00, NULL, 10);
+    
+select * from hr.emp;
+
+CREATE TABLE hr.dept (
+    dept_id INT,
+    d_name VARCHAR(255),
+    loc VARCHAR(255)
+);
+
+insert into hr.dept(dept_id,d_name,loc) values(10,'accounting','new york'),(20,'research','dallas'),(30,'sales','chicago'),(40,'operations','boston');
+
+create schema if not exists customer_order;
+CREATE TABLE customer_order.orders (
+    order_id INT,
+    order_datetime VARCHAR(255),
+    customer_id INT,
+    order_status VARCHAR(10),
+    store_id INT
+);
+
+create schema if not exists assignment_schema;
+create table movie_ratings(col_1 integer unique, col_2 varchar(255),col_3 varchar(255));
+alter table movie_ratings modify col_1 integer unique;
+select * from movie_ratings;
+insert into movie_ratings(col_1,col_2,col_3)values(1,'first','animal'),(2,'second','plants'),(3,'third','human'),(4,'fourth','flowers');
+
+alter table movie_ratings add column ratings int check(ratings>0);
+
+
+
+
