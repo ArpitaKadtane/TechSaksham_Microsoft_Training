@@ -1,0 +1,60 @@
+/* query the countries table in that countries table schema to return recordes where the population is over 200 million sort the results in desending population order;*/
+select * from countries.countries;
+select  population>200 from countries.countries;
+SELECT * 
+FROM countries.countries
+WHERE population > 200000000 
+ORDER BY population DESC;
+
+select * from hr.emp;
+-- return the recordes where the employee earns a commission sort the results in assending order
+SELECT * 
+FROM hr.emp
+WHERE comm IS NOT NULL 
+ORDER BY comm ASC;
+
+-- retrun the record where the quantity is above 4 and the unit price is above 49
+select * from customer_orders.order_items;
+SELECT * 
+FROM customer_orders.order_items 
+WHERE quantity > 4 
+AND unit_price > 49;
+
+select * from countries.countries;
+
+SELECT population, area_km2 
+FROM countries.countries
+WHERE (population BETWEEN 100000000 AND 200000000) 
+   OR (area_km2 > 5000000);
+
+SELECT * 
+FROM countries.countries 
+WHERE name NOT LIKE "% %";
+select * from hr.emp;
+create table hr.sales_people(emp_no integer,ename varchar(255),job varchar(255),mgr integer,hire_date date,total_pay float,dept_no integer);
+select * from hr.sales_people;
+
+INSERT INTO hr.sales_people(emp_no, ename, job, mgr, hire_date, total_pay, dept_no)
+SELECT emp_no, ename, job, mgr, hire_date, (sal + COALESCE(comm, 0)) AS total_pay, dept_no
+FROM hr.emp
+WHERE job = 'SALESMAN';
+
+update hr.sales_people set job='senior salesman' where total_pay>2000;
+select * from hr.sales_people;
+
+-- dropping the table hr.sales_people
+drop table hr.sales_people;
+select * from  customer_orders.order_items;
+SELECT 
+    *,
+    (unit_price * quantity) AS line_item_amount
+FROM 
+    customer_orders.order_items;
+
+-- Round the line_item_amount column to 1 decimal point.
+SELECT 
+    *,
+    ROUND(unit_price * quantity, 1) AS line_item_amount
+FROM 
+    customer_orders.order_items;
+
